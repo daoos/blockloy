@@ -35,16 +35,11 @@ export class TopBar extends React.Component<TopBarProps, TopBarState> {
 	}
 
 	private handleMinimize(): void {
-
 		remote.getCurrentWindow().minimize();
-
 	}
 
 	private handleClose(): void {
-
-
 		remote.getCurrentWindow().close();
-
 	}
 
 	public render(): React.ReactElement {

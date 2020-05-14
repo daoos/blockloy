@@ -9,7 +9,6 @@ import * as React from "react";
 import "./index.css";
 import {TopBar} from "./TopBar";
 
-
 export interface AppProps {
 
 }
