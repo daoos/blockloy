@@ -1,8 +1,8 @@
 .idea
-electron/node_modules
-react/node_modules
-electron/package-lock.json
-react/package-lock.json
-electron/src/*.js*
-react/src/*.js*
-react/src/*.css*
+main/node_modules
+render/node_modules
+main/package-lock.json
+render/package-lock.json
+main/src/*.js*
+render/src/*.js*
+render/src/*.css*
