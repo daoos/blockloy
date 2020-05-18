@@ -5,7 +5,7 @@
  * github.com/elijahjcobb
  */
 
-@import "variables";
+@import "../variables";
 
 $barHeight: 48px;
 
@@ -47,6 +47,7 @@ $barHeight: 48px;
 	.close, .minimize {
 		width: $barHeight / 2;
 		height: $barHeight / 2;
+		transition: transform 250ms ease-in-out;
 	}
 
 	.close {
@@ -63,6 +64,7 @@ $barHeight: 48px;
 
 		.close {
 			color: $black;
+			transform: scale(1.25);
 		}
 	}
 
@@ -72,6 +74,7 @@ $barHeight: 48px;
 
 		.minimize {
 			color: $black;
+			transform: scale(1.25);
 		}
 	}
 

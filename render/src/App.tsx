@@ -7,7 +7,9 @@
 
 import * as React from "react";
 import "./index.css";
-import {TopBar} from "./TopBar";
+import {TopBar} from "./topBar/TopBar";
+import {WelcomeView} from "./welcome/WelcomeView";
+import "./App.css";
 
 export interface AppProps {
 
@@ -28,8 +30,11 @@ export class App extends React.Component<AppProps, AppState> {
 
 	public render(): React.ReactElement {
 
-		return (<div>
+		return (<div className={"App"}>
 			<TopBar/>
+			<div className={"main"}>
+				<WelcomeView/>
+			</div>
 		</div>);
 
 	}

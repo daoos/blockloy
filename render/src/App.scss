@@ -1,0 +1,17 @@
+/**
+ * Elijah Cobb
+ * elijah@elijahcobb.com
+ * elijahcobb.com
+ * github.com/elijahjcobb
+ */
+
+@import "./variables";
+
+.App {
+
+	height: 100vh;
+
+	.main {
+		height: calc(100% - 48px);
+	}
+}
