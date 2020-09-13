@@ -11,6 +11,7 @@ import {TopBar} from "./topBar/TopBar";
 import "./App.css";
 import {Remote} from "electron";
 const remote: Remote = window.require("electron").remote;
+const ipcRenderer = window.require("electron").ipcRenderer;
 const fs = window.require("fs");
 
 export interface AppProps {
@@ -53,7 +54,8 @@ export class App extends React.Component<AppProps, AppState> {
 	}
 
 	private handleCompile(): void {
-
+		fs.writeFileSync("/tmp/blockloy.als", this.state.value);
+		ipcRenderer.invoke("open-alloy", "/tmp/blockloy.als").catch(console.error);
 	}
 
 	public render(): React.ReactElement {

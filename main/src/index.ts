@@ -5,7 +5,8 @@
  * github.com/elijahjcobb
  */
 
-import {BrowserWindow, app} from "electron";
+import {BrowserWindow, app, ipcMain} from "electron";
+import {AlloyIntegration} from "./alloy/AlloyIntegration";
 
 async function createWindow () {
 
@@ -28,6 +29,10 @@ async function createWindow () {
 	window.setMenu(null);
 
 	await window.loadURL("http://localhost:3000");
+
+	ipcMain.handle("open-alloy", async (event, arg: string) => {
+		AlloyIntegration.open(arg);
+	});
 
 }
 
