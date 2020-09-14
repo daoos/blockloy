@@ -66,8 +66,8 @@ export class App extends React.Component<AppProps, AppState> {
 				<textarea onChange={this.handleTextAreaOnChange} className={"editor"} value={this.state.value}/>
 			</div>
 			<div className={"bottomBar"}>
-				<button onClick={this.handleLoad} className={"load"}>Load</button>
-				<button onClick={this.handleCompile} className={"compile"}>Compile</button>
+				<span onClick={this.handleLoad} className={"load"}>Load</span>
+				<span onClick={this.handleCompile} className={"compile"}>Compile</span>
 			</div>
 		</div>);
 

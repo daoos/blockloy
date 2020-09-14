@@ -9,7 +9,28 @@ import * as ChildProcess from "child_process";
 
 export class AlloyIntegration {
 
-	public static open(path: string): void {
-		ChildProcess.execFileSync("java", ["-jar", __dirname + "/integration.jar", path]);
+	private readonly _process: ChildProcess.ChildProcessWithoutNullStreams;
+
+	public constructor(path: string) {
+		this._process = ChildProcess.spawn("java", ["-jar", __dirname + "/integration.jar", path]);
+		this._process.stderr.on("data", this.onStdErr.bind(this));
+		this._process.stdout.on("data", this.onStdOut.bind(this));
 	}
+
+	private onStdErr(data: any): void {
+		console.error(data);
+	}
+
+	private onStdOut(data: any): void {
+		console.log(data);
+	}
+
+	public stop(): void {
+		this._process.kill();
+	}
+
+	public write(data: Buffer | string): void {
+		this._process.stdin.write(data);
+	}
+
 }

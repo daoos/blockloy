@@ -37,7 +37,7 @@
 		align-items: center;
 		justify-content: space-around;
 
-		button {
+		span {
 			margin: 0 10px;
 			padding: 10px 10px;
 			background: $blue;
@@ -47,13 +47,14 @@
 			color: $black;
 			text-align: center;
 			transition: all 250ms ease-in-out;
+			display: block;
 		}
 
 		.compile {
 			background: $green;
 		}
 
-		button:hover {
+		span:hover {
 			border-radius: 10px;
 			cursor: pointer;
 			transform: scale(1.1);

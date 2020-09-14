@@ -9,8 +9,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AlloyIntegration = void 0;
 const ChildProcess = require("child_process");
 class AlloyIntegration {
-    static open(path) {
-        ChildProcess.execFileSync("java", ["-jar", __dirname + "/integration.jar", path]);
+    constructor(path) {
+        this._process = ChildProcess.spawn("java", ["-jar", __dirname + "/integration.jar", path]);
+        this._process.stderr.on("data", this.onStdErr.bind(this));
+        this._process.stdout.on("data", this.onStdOut.bind(this));
+    }
+    onStdErr(data) {
+        console.error(data);
+    }
+    onStdOut(data) {
+        console.log(data);
+    }
+    stop() {
+        this._process.kill();
+    }
+    write(data) {
+        this._process.stdin.write(data);
     }
 }
 exports.AlloyIntegration = AlloyIntegration;

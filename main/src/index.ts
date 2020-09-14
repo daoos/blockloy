@@ -30,8 +30,11 @@ async function createWindow () {
 
 	await window.loadURL("http://localhost:3000");
 
+	let integration: AlloyIntegration | undefined;
+
 	ipcMain.handle("open-alloy", async (event, arg: string) => {
-		AlloyIntegration.open(arg);
+		if (integration) integration.stop();
+		integration = new AlloyIntegration(arg);
 	});
 
 }
