@@ -15,10 +15,10 @@ class AlloyIntegration {
         this._process.stdout.on("data", this.onStdOut.bind(this));
     }
     onStdErr(data) {
-        console.error(data);
+        console.error(data.toString());
     }
     onStdOut(data) {
-        console.log(data);
+        console.log(data.toString());
     }
     stop() {
         this._process.kill();

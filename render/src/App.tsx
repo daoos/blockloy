@@ -61,13 +61,8 @@ export class App extends React.Component<AppProps, AppState> {
 	public render(): React.ReactElement {
 
 		return (<div className={"App"}>
-			<TopBar/>
 			<div className={"main"}>
 				<textarea onChange={this.handleTextAreaOnChange} className={"editor"} value={this.state.value}/>
-			</div>
-			<div className={"bottomBar"}>
-				<span onClick={this.handleLoad} className={"load"}>Load</span>
-				<span onClick={this.handleCompile} className={"compile"}>Compile</span>
 			</div>
 		</div>);
 

@@ -18,11 +18,11 @@ export class AlloyIntegration {
 	}
 
 	private onStdErr(data: any): void {
-		console.error(data);
+		console.error(data.toString());
 	}
 
 	private onStdOut(data: any): void {
-		console.log(data);
+		console.log(data.toString());
 	}
 
 	public stop(): void {
