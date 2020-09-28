@@ -5,7 +5,8 @@
  * github.com/elijahjcobb
  */
 
-import {BrowserWindow, app, ipcMain, Menu, MenuItemConstructorOptions, MenuItem} from "electron";
+import {BrowserWindow, app, ipcMain, Menu, MenuItemConstructorOptions, MenuItem, dialog, ipcRenderer} from "electron";
+import * as fs from "fs";
 import {AlloyIntegration} from "./alloy/AlloyIntegration";
 
 async function createWindow () {
@@ -27,12 +28,6 @@ async function createWindow () {
 		{
 			label: "Blockloy",
 			submenu: [
-				{role: "about"},
-				{ type: "separator" },
-				{role: "hide"},
-				{role: "hideOthers"},
-				{role: "unhide"},
-				{ type: "separator" },
 				{role: "quit"}
 			]
 		},
@@ -43,16 +38,25 @@ async function createWindow () {
 					label: "Open",
 					accelerator: "CmdOrCtrl+O",
 					click: async () => {
-						const { shell } = require("electron");
-						await shell.openExternal("https://github.com/elijahjcobb");
+						const path: string[] | undefined = dialog.showOpenDialogSync({properties: ["openFile"], filters: [{
+								name: "*",
+								extensions: ["als"]
+						}]});
+						if (!path) return;
+						const filePath: string = path[0];
+						if (!filePath) return;
+						if (!fs.existsSync(filePath)) return;
+						const data: Buffer | undefined = fs.readFileSync(filePath);
+						if (!data) return;
+						const str = data.toString("utf8");
+						window.webContents.send("handle-open", str);
 					}
 				},
 				{
 					label: "Compile and Run",
 					accelerator: "CmdOrCtrl+R",
 					click: async () => {
-						const { shell } = require("electron");
-						await shell.openExternal("https://github.com/elijahjcobb");
+						window.webContents.send("handle-run");
 					}
 				}
 			]
@@ -106,7 +110,7 @@ async function createWindow () {
 
 	ipcMain.handle("open-alloy", async (event, arg: string) => {
 		if (integration) integration.stop();
-		integration = new AlloyIntegration(arg);
+		integration = new AlloyIntegration(arg, window);
 	});
 
 }

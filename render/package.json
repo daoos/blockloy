@@ -16,7 +16,12 @@
 		"typescript": "^3.7.5",
 		"@material-ui/icons": "latest",
 		"@material-ui/core": "latest",
-		"electron": "8.2.5"
+		"electron": "8.2.5",
+		"react-codemirror2": "latest",
+		"codemirror": "latest",
+		"@types/codemirror": "latest",
+		"react-blockly": "latest",
+		"blockly": "latest"
 	},
 	"scripts": {
 		"start": "BROWSER=none react-scripts start",

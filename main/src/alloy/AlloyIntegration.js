@@ -9,13 +9,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AlloyIntegration = void 0;
 const ChildProcess = require("child_process");
 class AlloyIntegration {
-    constructor(path) {
+    constructor(path, window) {
+        this._window = window;
         this._process = ChildProcess.spawn("java", ["-jar", __dirname + "/integration.jar", path]);
         this._process.stderr.on("data", this.onStdErr.bind(this));
         this._process.stdout.on("data", this.onStdOut.bind(this));
     }
     onStdErr(data) {
-        console.error(data.toString());
+        const msg = data.toString();
+        console.error(msg);
+        if (msg.includes("Model was not satisfiable.")) {
+            this._window.webContents.send("handle-error-compile");
+        }
     }
     onStdOut(data) {
         console.log(data.toString());

@@ -6,10 +6,13 @@
  */
 
 import * as React from "react";
+import {Controlled as CodeMirror} from "react-codemirror2";
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/theme/nord.css';
 import "./index.css";
-import {TopBar} from "./topBar/TopBar";
 import "./App.css";
 import {Remote} from "electron";
+import {Blockly} from "./blockly/Blockly";
 const remote: Remote = window.require("electron").remote;
 const ipcRenderer = window.require("electron").ipcRenderer;
 const fs = window.require("fs");
@@ -29,41 +32,63 @@ export class App extends React.Component<AppProps, AppState> {
 		super(props);
 		this.state = {value: ""};
 		this.handleTextAreaOnChange = this.handleTextAreaOnChange.bind(this);
-		this.handleLoad = this.handleLoad.bind(this);
 		this.handleCompile = this.handleCompile.bind(this);
 
+	}
+
+	public componentDidMount() {
+		ipcRenderer.on("handle-open", (event, message) => {
+			this.setState({value: message});
+		})
+
+		ipcRenderer.on("handle-run", () => {
+			fs.writeFileSync("/tmp/blockloy.als", this.state.value);
+			ipcRenderer.invoke("open-alloy", "/tmp/blockloy.als").catch(console.error);
+		});
+
+		ipcRenderer.on("handle-error-compile", () => {
+			alert("Source code incorrect. Failed to compile.")
+		});
 	}
 
 	private handleTextAreaOnChange(ev: React.ChangeEvent<HTMLTextAreaElement>): void {
 		this.setState({value: ev.target.value});
 	}
 
-	private handleLoad(): void {
-		const path: string[] | undefined = remote.dialog.showOpenDialogSync({properties: ["openFile"], filters: [{
-			name: "*",
-				extensions: ["als"]
-			}]})
-		if (!path) return;
-		const filePath: string = path[0];
-		if (!filePath) return;
-		if (!fs.existsSync(filePath)) return;
-		const data: Buffer | undefined = fs.readFileSync(filePath);
-		if (!data) return;
-		const str = data.toString("utf8");
-		this.setState({value: str});
-	}
 
 	private handleCompile(): void {
-		fs.writeFileSync("/tmp/blockloy.als", this.state.value);
-		ipcRenderer.invoke("open-alloy", "/tmp/blockloy.als").catch(console.error);
+
 	}
 
 	public render(): React.ReactElement {
 
 		return (<div className={"App"}>
 			<div className={"main"}>
-				<textarea onChange={this.handleTextAreaOnChange} className={"editor"} value={this.state.value}/>
+				<CodeMirror
+					className={"editor"}
+					value={this.state.value}
+					options={{
+						mode: {name: "javascript", json: true},
+						theme: "nord",
+						lineNumbers: true,
+						lineWrapping: true,
+						spellcheck: true,
+						smartIndent: true,
+						indentUnit: 4,
+						indentWithTabs: true,
+						readOnly: "nocursor",
+						electricChars: true
+					}}
+					onBeforeChange={(editor, data, value) => {
+						this.setState({value});
+					}}
+					onChange={(editor, data, value) => {
+
+					}}
+				/>
+				{/*<Blockly/>*/}
 			</div>
+			<div className={"bottomBar"}/>
 		</div>);
 
 	}
