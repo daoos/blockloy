@@ -11,9 +11,7 @@ import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/nord.css';
 import "./index.css";
 import "./App.css";
-import {Remote} from "electron";
-import {Blockly} from "./blockly/Blockly";
-const remote: Remote = window.require("electron").remote;
+import * as codemirror from "codemirror";
 const ipcRenderer = window.require("electron").ipcRenderer;
 const fs = window.require("fs");
 
@@ -23,16 +21,20 @@ export interface AppProps {
 
 export interface AppState {
 	value: string;
+	cursor: {line: number, ch: number};
+	selection: {ranges: {anchor: {ch: number, line: number}, head: {ch: number, line: number}}[], focus: boolean};
 }
 
 export class App extends React.Component<AppProps, AppState> {
 
+	private readonly editor: React.RefObject<CodeMirror>;
+
 	public constructor(props: AppProps) {
 
 		super(props);
-		this.state = {value: ""};
+		this.state = {value: "", cursor: {line: 0, ch: 0}, selection: {ranges: [], focus: true}};
 		this.handleTextAreaOnChange = this.handleTextAreaOnChange.bind(this);
-		this.handleCompile = this.handleCompile.bind(this);
+		this.editor = React.createRef();
 
 	}
 
@@ -46,18 +48,37 @@ export class App extends React.Component<AppProps, AppState> {
 			ipcRenderer.invoke("open-alloy", "/tmp/blockloy.als").catch(console.error);
 		});
 
-		ipcRenderer.on("handle-error-compile", () => {
+		ipcRenderer.on("handle-error-run", () => {
 			alert("Source code incorrect. Failed to compile.")
 		});
+
+		ipcRenderer.on("handle-error-compile", (event, error: {msg: string, x1: number, x2: number, y1: number, y2: number}) => {
+			// alert(`Ch: ${error.x1}-${error.x2}, Line: ${error.y1}-${error.y2}\n${error.msg}`);
+			this.setState({
+				cursor: {line: error.y1, ch: error.x1},
+				selection: {
+					ranges: [
+						{
+							head: {
+								line: error.y1,
+								ch: error.x1
+							},
+							anchor: {
+								line: error.y2,
+								ch: error.x2
+							}
+						}
+					],
+					focus: true
+				}
+			});
+		});
+
+		const editor = new codemirror();
 	}
 
 	private handleTextAreaOnChange(ev: React.ChangeEvent<HTMLTextAreaElement>): void {
 		this.setState({value: ev.target.value});
-	}
-
-
-	private handleCompile(): void {
-
 	}
 
 	public render(): React.ReactElement {
@@ -65,8 +86,16 @@ export class App extends React.Component<AppProps, AppState> {
 		return (<div className={"App"}>
 			<div className={"main"}>
 				<CodeMirror
+					ref={this.editor}
+					autoCursor={true}
 					className={"editor"}
 					value={this.state.value}
+					cursor={this.state.cursor}
+					onCursor={((editor, data) => {
+						this.setState({cursor: {line: data.line, ch: data.ch}});
+					})}
+					selection={this.state.selection}
+					onSelection={((editor, data) => this.setState({selection: data}))}
 					options={{
 						mode: {name: "javascript", json: true},
 						theme: "nord",
@@ -76,7 +105,7 @@ export class App extends React.Component<AppProps, AppState> {
 						smartIndent: true,
 						indentUnit: 4,
 						indentWithTabs: true,
-						readOnly: "nocursor",
+						// readOnly: "nocursor",
 						electricChars: true
 					}}
 					onBeforeChange={(editor, data, value) => {
