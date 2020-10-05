@@ -12,8 +12,8 @@ import {AlloyIntegration} from "./alloy/AlloyIntegration";
 async function createWindow () {
 
 	const dimensions = {
-		width: 854,
-		height: 480
+		width: 1280,
+		height: 720
 	};
 
 	const window = new BrowserWindow({
