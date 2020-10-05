@@ -6,12 +6,11 @@
  */
 
 import * as React from "react";
-import {Controlled as CodeMirror} from "react-codemirror2";
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/nord.css';
 import "./index.css";
 import "./App.css";
-import * as codemirror from "codemirror";
+import CodeMirror from "codemirror";
 const ipcRenderer = window.require("electron").ipcRenderer;
 const fs = window.require("fs");
 
@@ -27,14 +26,11 @@ export interface AppState {
 
 export class App extends React.Component<AppProps, AppState> {
 
-	private readonly editor: React.RefObject<CodeMirror>;
-
 	public constructor(props: AppProps) {
 
 		super(props);
 		this.state = {value: "", cursor: {line: 0, ch: 0}, selection: {ranges: [], focus: true}};
 		this.handleTextAreaOnChange = this.handleTextAreaOnChange.bind(this);
-		this.editor = React.createRef();
 
 	}
 
@@ -74,7 +70,21 @@ export class App extends React.Component<AppProps, AppState> {
 			});
 		});
 
-		const editor = new codemirror();
+		const div = document.getElementById("editor");
+		if (!div) return;
+
+		const editor: CodeMirror.Editor = CodeMirror(div, {
+			mode: {name: "javascript", json: true},
+			theme: "nord",
+			lineNumbers: true,
+			lineWrapping: true,
+			spellcheck: true,
+			smartIndent: true,
+			indentUnit: 4,
+			indentWithTabs: true,
+			// readOnly: "nocursor",
+			electricChars: true
+		});
 	}
 
 	private handleTextAreaOnChange(ev: React.ChangeEvent<HTMLTextAreaElement>): void {
@@ -85,37 +95,38 @@ export class App extends React.Component<AppProps, AppState> {
 
 		return (<div className={"App"}>
 			<div className={"main"}>
-				<CodeMirror
-					ref={this.editor}
-					autoCursor={true}
-					className={"editor"}
-					value={this.state.value}
-					cursor={this.state.cursor}
-					onCursor={((editor, data) => {
-						this.setState({cursor: {line: data.line, ch: data.ch}});
-					})}
-					selection={this.state.selection}
-					onSelection={((editor, data) => this.setState({selection: data}))}
-					options={{
-						mode: {name: "javascript", json: true},
-						theme: "nord",
-						lineNumbers: true,
-						lineWrapping: true,
-						spellcheck: true,
-						smartIndent: true,
-						indentUnit: 4,
-						indentWithTabs: true,
-						// readOnly: "nocursor",
-						electricChars: true
-					}}
-					onBeforeChange={(editor, data, value) => {
-						this.setState({value});
-					}}
-					onChange={(editor, data, value) => {
+				<div id={"editor"} className={"editor"}/>
+				{/*<CodeMirror*/}
+				{/*	ref={this.editor}*/}
+				{/*	autoCursor={true}*/}
+				{/*	className={"editor"}*/}
+				{/*	value={this.state.value}*/}
+				{/*	cursor={this.state.cursor}*/}
+				{/*	onCursor={((editor, data) => {*/}
+				{/*		this.setState({cursor: {line: data.line, ch: data.ch}});*/}
+				{/*	})}*/}
+				{/*	selection={this.state.selection}*/}
+				{/*	onSelection={((editor, data) => this.setState({selection: data}))}*/}
+				{/*	options={{*/}
+				{/*		mode: {name: "javascript", json: true},*/}
+				{/*		theme: "nord",*/}
+				{/*		lineNumbers: true,*/}
+				{/*		lineWrapping: true,*/}
+				{/*		spellcheck: true,*/}
+				{/*		smartIndent: true,*/}
+				{/*		indentUnit: 4,*/}
+				{/*		indentWithTabs: true,*/}
+				{/*		// readOnly: "nocursor",*/}
+				{/*		electricChars: true*/}
+				{/*	}}*/}
+				{/*	onBeforeChange={(editor, data, value) => {*/}
+				{/*		this.setState({value});*/}
+				{/*	}}*/}
+				{/*	onChange={(editor, data, value) => {*/}
 
-					}}
-				/>
-				{/*<Blockly/>*/}
+				{/*	}}*/}
+				{/*/>*/}
+				{/*/!*<Blockly/>*!/*/}
 			</div>
 			<div className={"bottomBar"}/>
 		</div>);

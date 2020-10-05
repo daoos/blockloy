@@ -73,3 +73,27 @@
 		}
 	}
 }
+
+#alert {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	top: 10vh;
+	left: 10vh;
+	padding: 40px;
+	background: #21252b;
+	border-radius: 20px;
+	width: 80vw;
+	height: 10vh;
+	z-index: 10;
+}
+
+#alert-title {
+	font-weight: bold;
+	font-size: 1.5em;
+}
+
+#alert-content {
+	margin-top: 20px;
+}
+
