@@ -9,6 +9,8 @@ import {BrowserWindow, app, ipcMain, Menu, MenuItemConstructorOptions, MenuItem,
 import * as fs from "fs";
 import {AlloyIntegration} from "./alloy/AlloyIntegration";
 
+let file: string = "";
+
 async function createWindow () {
 
 	const dimensions = {
@@ -48,15 +50,25 @@ async function createWindow () {
 						if (!fs.existsSync(filePath)) return;
 						const data: Buffer | undefined = fs.readFileSync(filePath);
 						if (!data) return;
+						file = filePath;
 						const str = data.toString("utf8");
-						window.webContents.send("handle-open", str);
+						window.webContents.send("set", str);
+						const parts: string[] = filePath.split("/");
+						window.setTitle("Blockloy - " + parts[parts.length - 1]);
 					}
 				},
 				{
-					label: "Compile and Run",
+					label: "Save",
+					accelerator: "CmdOrCtrl+S",
+					click: async () => {
+						window.webContents.send("get-save");
+					}
+				},
+				{
+					label: "Run",
 					accelerator: "CmdOrCtrl+R",
 					click: async () => {
-						window.webContents.send("handle-run");
+						window.webContents.send("get-run");
 					}
 				}
 			]
@@ -108,9 +120,14 @@ async function createWindow () {
 
 	let integration: AlloyIntegration | undefined;
 
-	ipcMain.handle("open-alloy", async (event, arg: string) => {
+	ipcMain.handle("get-save", async (event, arg: string) => {
+		fs.writeFileSync(file, arg);
+	});
+
+	ipcMain.handle("get-run", async (event, arg: string) => {
+		fs.writeFileSync(file, arg);
 		if (integration) integration.stop();
-		integration = new AlloyIntegration(arg, window);
+		integration = new AlloyIntegration(file, window);
 	});
 
 }

@@ -57,13 +57,16 @@ function main() {
 		electricChars: true
 	});
 
-	ipcRenderer.on("handle-open", (event, message) => {
+	ipcRenderer.on("set", (event, message) => {
 		editor.setValue(message);
 	})
 
-	ipcRenderer.on("handle-run", () => {
-		fs.writeFileSync("/tmp/blockloy.als", editor.getValue());
-		ipcRenderer.invoke("open-alloy", "/tmp/blockloy.als").catch(console.error);
+	ipcRenderer.on("get-save", () => {
+		ipcRenderer.invoke("get-save", editor.getValue()).catch(console.error);
+	});
+
+	ipcRenderer.on("get-run", () => {
+		ipcRenderer.invoke("get-run", editor.getValue()).catch(console.error);
 	});
 
 	ipcRenderer.on("handle-error-run", () => {
