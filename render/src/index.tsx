@@ -10,6 +10,7 @@ import 'codemirror/theme/nord.css';
 import CodeMirror from "codemirror";
 import "./index.css";
 import "./App.css";
+import {BlockloyParser} from "./BlockloyParser";
 
 const ipcRenderer = window.require("electron").ipcRenderer;
 const fs = window.require("fs");
@@ -55,6 +56,19 @@ function main() {
 		indentWithTabs: true,
 		// readOnly: "nocursor",
 		electricChars: true
+	});
+
+	let lastPosition: CodeMirror.Position = {ch: 0, line: 0};
+	editor.on("cursorActivity", (editor) => {
+		const position = editor.getCursor();
+		const line: number = position.line;
+		const locations = BlockloyParser.parse(editor.getValue());
+		for (const location of locations) {
+			if (line >= location.s && line <= location.e) {
+				return editor.setCursor(lastPosition);
+			}
+		}
+		lastPosition = position;
 	});
 
 	ipcRenderer.on("set", (event, message) => {
