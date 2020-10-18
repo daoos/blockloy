@@ -73,6 +73,7 @@ function main() {
 
 	ipcRenderer.on("set", (event, message) => {
 		editor.setValue(message);
+		for (const location of BlockloyParser.parse(message)) editor.markText({ch: 0, line: location.s - 1}, {ch: 0, line: location.e + 2}, {css: "color: yellow;"});
 	})
 
 	ipcRenderer.on("get-save", () => {
