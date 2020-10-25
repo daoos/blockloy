@@ -13,13 +13,26 @@
 	height: 100vh;
 
 	.main {
-		height: calc(100% - 0px);
+		height: 100%;
 		width: 100%;
 		display: flex;
+
+		#blocklyDiv {
+			width: 40%;
+			height: 100%;
+			border: none;
+			outline: none;
+			stroke-width: 0;
+		}
+
+	}
+
+	.blocklyFlyoutBackground {
+		border-radius: 0;
 	}
 
 	.editor {
-		width: 100%;
+		width: 60%;
 		height: 100%;
 		background: none;
 		color: $white;

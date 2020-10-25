@@ -5,12 +5,13 @@
  * github.com/elijahjcobb
  */
 
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/nord.css';
+import "codemirror/lib/codemirror.css";
+import "codemirror/theme/nord.css";
 import CodeMirror from "codemirror";
 import "./index.css";
 import "./App.css";
 import {BlockloyParser} from "./BlockloyParser";
+import Blockly from "blockly";
 
 const ipcRenderer = window.require("electron").ipcRenderer;
 const fs = window.require("fs");
@@ -95,6 +96,21 @@ function main() {
 	});
 
 	setupAlert();
+
+	const toolbox = document.getElementById("toolbox");
+	console.log(toolbox);
+	if (!toolbox) throw new Error("Toolbox undefined.");
+	const workspace = Blockly.inject("blocklyDiv", {
+		toolbox: toolbox,
+		theme: {
+			componentStyles: {
+				workspaceBackgroundColour: "#282C34",
+				flyoutBackgroundColour: "#21252b",
+				toolboxBackgroundColour: "#21252b"
+			}
+		}
+	})
+
 
 }
 
