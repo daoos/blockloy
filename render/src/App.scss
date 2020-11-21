@@ -16,15 +16,44 @@
 		height: 100%;
 		width: 100%;
 		display: flex;
+	}
 
-		#blocklyDiv {
-			width: 40%;
-			height: 100%;
-			border: none;
-			outline: none;
-			stroke-width: 0;
+	.right {
+		width: 40%;
+		height: 100%;
+		border: none;
+		outline: none;
+		stroke-width: 0;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.tabs {
+		display: flex;
+		height: 62px;
+		width: 100%;
+		background: $black;
+		justify-content: flex-start;
+		overflow-x: scroll;
+
+		.tab {
+			display: flex;
+			color: $white;
+			padding: 0 20px;
+			align-items: center;
+			justify-content: center;
+			min-width: 100px;
 		}
 
+		.active, .tab:hover {
+			background: $blue;
+			color: $black;
+		}
+	}
+
+	#blocklyDiv {
+		width: 100%;
+		height: calc(100% - 62px);
 	}
 
 	.blocklyFlyoutBackground {
