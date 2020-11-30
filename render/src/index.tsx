@@ -97,6 +97,77 @@ function main() {
 
 	setupAlert();
 
+	Blockly.defineBlocksWithJsonArray([{
+		"type": "all",
+		"message0": "all %1 : %2 | %3",
+		"args0": [
+			{
+				"type": "field_variable",
+				"name": "NAME",
+				"variable": "item"
+			},
+			{
+				"type": "input_value",
+				"name": "condition",
+				"check": "Boolean"
+			},
+			{
+				"type": "input_statement",
+				"name": "statement",
+				"check": "Boolean",
+				"align": "RIGHT"
+			}
+		],
+		"inputsInline": true,
+		"previousStatement": null,
+		"nextStatement": null,
+		"colour": 230,
+		"tooltip": "",
+		"helpUrl": ""
+	},
+		{
+			"type": "conjunction",
+			"message0": "%1 %2 %3 %4",
+			"args0": [
+				{
+					"type": "field_dropdown",
+					"name": "NAME",
+					"options": [
+						[
+							"and",
+							"AND"
+						],
+						[
+							"or",
+							"OR"
+						],
+						[
+							"not",
+							"NOT"
+						]
+					]
+				},
+				{
+					"type": "input_dummy"
+				},
+				{
+					"type": "input_value",
+					"name": "NAME",
+					"check": "Boolean",
+					"align": "RIGHT"
+				},
+				{
+					"type": "input_value",
+					"name": "NAME",
+					"check": "Boolean"
+				}
+			],
+			"output": null,
+			"colour": 230,
+			"tooltip": "",
+			"helpUrl": ""
+		}]);
+
 	const toolbox = document.getElementById("toolbox");
 	console.log(toolbox);
 	if (!toolbox) throw new Error("Toolbox undefined.");
@@ -109,8 +180,7 @@ function main() {
 				toolboxBackgroundColour: "#21252b"
 			}
 		}
-	})
-
+	});
 
 }
 
