@@ -21,7 +21,8 @@
 		"codemirror": "latest",
 		"@types/codemirror": "latest",
 		"react-blockly": "latest",
-		"blockly": "latest"
+		"blockly": "latest",
+		"@element-ts/chlorine": "latest"
 	},
 	"scripts": {
 		"start": "BROWSER=none react-scripts start",

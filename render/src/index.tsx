@@ -126,39 +126,133 @@ function main() {
 		"helpUrl": ""
 	},
 		{
-			"type": "conjunction",
-			"message0": "%1 %2 %3 %4",
+			"type": "some",
+			"message0": "some %1 : %2 | %3",
 			"args0": [
 				{
-					"type": "field_dropdown",
+					"type": "field_variable",
 					"name": "NAME",
-					"options": [
-						[
-							"and",
-							"AND"
-						],
-						[
-							"or",
-							"OR"
-						],
-						[
-							"not",
-							"NOT"
-						]
-					]
+					"variable": "item"
 				},
+				{
+					"type": "input_value",
+					"name": "condition",
+					"check": "Boolean"
+				},
+				{
+					"type": "input_statement",
+					"name": "statement",
+					"check": "Boolean",
+					"align": "RIGHT"
+				}
+			],
+			"inputsInline": true,
+			"previousStatement": null,
+			"nextStatement": null,
+			"colour": 230,
+			"tooltip": "",
+			"helpUrl": ""
+		},
+		{
+			"type": "no",
+			"message0": "no %1 : %2 | %3",
+			"args0": [
+				{
+					"type": "field_variable",
+					"name": "NAME",
+					"variable": "item"
+				},
+				{
+					"type": "input_value",
+					"name": "condition",
+					"check": "Boolean"
+				},
+				{
+					"type": "input_statement",
+					"name": "statement",
+					"check": "Boolean",
+					"align": "RIGHT"
+				}
+			],
+			"inputsInline": true,
+			"previousStatement": null,
+			"nextStatement": null,
+			"colour": 230,
+			"tooltip": "",
+			"helpUrl": ""
+		},
+		{
+			"type": "one",
+			"message0": "one %1 : %2 | %3",
+			"args0": [
+				{
+					"type": "field_variable",
+					"name": "NAME",
+					"variable": "item"
+				},
+				{
+					"type": "input_value",
+					"name": "condition",
+					"check": "Boolean"
+				},
+				{
+					"type": "input_statement",
+					"name": "statement",
+					"check": "Boolean",
+					"align": "RIGHT"
+				}
+			],
+			"inputsInline": true,
+			"previousStatement": null,
+			"nextStatement": null,
+			"colour": 230,
+			"tooltip": "",
+			"helpUrl": ""
+		},
+		{
+			"type": "lone",
+			"message0": "lone %1 : %2 | %3",
+			"args0": [
+				{
+					"type": "field_variable",
+					"name": "NAME",
+					"variable": "item"
+				},
+				{
+					"type": "input_value",
+					"name": "condition",
+					"check": "Boolean"
+				},
+				{
+					"type": "input_statement",
+					"name": "statement",
+					"check": "Boolean",
+					"align": "RIGHT"
+				}
+			],
+			"inputsInline": true,
+			"previousStatement": null,
+			"nextStatement": null,
+			"colour": 230,
+			"tooltip": "",
+			"helpUrl": ""
+		},
+		{
+			"type": "and",
+			"message0": "and %1 %2 %3",
+			"args0": [
 				{
 					"type": "input_dummy"
 				},
 				{
 					"type": "input_value",
-					"name": "NAME",
+					"name": "val1",
 					"check": "Boolean",
 					"align": "RIGHT"
 				},
 				{
 					"type": "input_value",
-					"name": "NAME",
+					"name": "val2",
 					"check": "Boolean"
 				}
 			],
@@ -166,7 +260,88 @@ function main() {
 			"colour": 230,
 			"tooltip": "",
 			"helpUrl": ""
-		}]);
+		},
+		{
+			"type": "or",
+			"message0": "or %1 %2 %3",
+			"args0": [
+				{
+					"type": "input_dummy"
+				},
+				{
+					"type": "input_value",
+					"name": "val1",
+					"check": "Boolean",
+					"align": "RIGHT"
+				},
+				{
+					"type": "input_value",
+					"name": "val2",
+					"check": "Boolean"
+				}
+			],
+			"output": null,
+			"colour": 230,
+			"tooltip": "",
+			"helpUrl": ""
+		},
+		{
+			"type": "not",
+			"message0": "not %1",
+			"args0": [
+				{
+					"type": "input_value",
+					"name": "NAME",
+					"check": "Boolean"
+				}
+			],
+			"inputsInline": false,
+			"output": "Boolean",
+			"colour": 230,
+			"tooltip": "",
+			"helpUrl": ""
+		},
+		{
+			"type": "implies",
+			"message0": "implies %1 %2",
+			"args0": [
+				{
+					"type": "input_value",
+					"name": "a",
+					"check": "Boolean"
+				},
+				{
+					"type": "input_statement",
+					"name": "b"
+				}
+			],
+			"previousStatement": null,
+			"nextStatement": null,
+			"colour": 230,
+			"tooltip": "",
+			"helpUrl": ""
+		},
+		{
+			"type": "iff",
+			"message0": "implies %1 %2",
+			"args0": [
+				{
+					"type": "input_value",
+					"name": "a",
+					"check": "Boolean"
+				},
+				{
+					"type": "input_statement",
+					"name": "b"
+				}
+			],
+			"previousStatement": null,
+			"nextStatement": null,
+			"colour": 230,
+			"tooltip": "",
+			"helpUrl": ""
+		}
+	]);
 
 	const toolbox = document.getElementById("toolbox");
 	console.log(toolbox);

@@ -15,6 +15,7 @@
 		"electron": "8.2.5",
 		"@types/node": "12.12.39",
 		"typescript": "latest",
-		"tslint": "latest"
+		"tslint": "latest",
+		"@element-ts/chlorine": "latest"
 	}
 }
