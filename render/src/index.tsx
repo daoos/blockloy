@@ -303,27 +303,31 @@ function main() {
 		},
 		{
 			"type": "implies",
-			"message0": "implies %1 %2",
+			"message0": "implies %1 %2 %3",
 			"args0": [
 				{
-					"type": "input_value",
-					"name": "a",
-					"check": "Boolean"
+					"type": "input_dummy"
 				},
 				{
-					"type": "input_statement",
-					"name": "b"
+					"type": "input_value",
+					"name": "val1",
+					"check": "Boolean",
+					"align": "RIGHT"
+				},
+				{
+					"type": "input_value",
+					"name": "val2",
+					"check": "Boolean"
 				}
 			],
-			"previousStatement": null,
-			"nextStatement": null,
+			"output": null,
 			"colour": 230,
 			"tooltip": "",
 			"helpUrl": ""
 		},
 		{
 			"type": "iff",
-			"message0": "implies %1 %2",
+			"message0": "iff %1 %2",
 			"args0": [
 				{
 					"type": "input_value",
